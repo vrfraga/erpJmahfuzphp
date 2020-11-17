@@ -2,43 +2,27 @@
 
 namespace Hcode\DB;
 
-
 class Sql {
 
- //public function __construct()
-//	{
-// 
-//       $this->conn = new \PDO (
-//
-//			"(DESCRIPTION =
-//				(ADDRESS_LIST =
-//				  (ADDRESS = (PROTOCOL = TCP)(HOST = 192.42.103.5)(PORT = 1521))
-//				)
-//				(CONNECT_DATA =
-//				  (SERVICE_NAME = DBHOM00)
-//				)
-//			  )"
-			   
-				   
+    const HOSTNAME = "127.0.0.1";
+	const USERNAME = "root";
+	const PASSWORD = "plussha";
+	const DBNAME = "db_ecommerce";
 
-				   
-//			$db_username = "prdgemco";
-//			$db_password = "prdgemco";
+	private $conn;
 
-//			try{
-//				$conn = new PDO("oci:dbname=".$tns,$db_username,$db_password);
-//				return $conn;
-//				echo "conectado com sucesso";
-//			}catch(PDOException $e){
-//				echo ($e->getMessage());
-			   // echo "erro de cconexao";
-//			}
-      
+	public function __construct()
+	{
 
-//	}	
+		$this->conn = new \PDO(
+			"mysql:dbname=".Sql::DBNAME.";host=".Sql::HOSTNAME, 
+			Sql::USERNAME,
+			Sql::PASSWORD
+		);
+
+	}	
 	
 	
-			
 	private function setParams($statement, $parameters = array())
 	{
 
@@ -84,4 +68,4 @@ class Sql {
 }
 
 
-?>
+ ?>

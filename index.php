@@ -1,21 +1,28 @@
 <?php 
 
-require_once("vendor/autoload.php");
+require_once("vendor/autoload.php");  
 
-$app = new \Slim\Slim();
+use \Slim\Slim;       //namespace
+use \Hcode\Page;      //namespace
 
-$app->config('debug', true);
+$app  = new Slim();	
 
-$app->get('/', function() {
-    
-	$sql = new Hcode\DB\Sql();
+$app->get('/', function() 
+{
+     
+     $page = new Page();     //chama o construct e vai adicionar o reader na tela
+
+     $page->setTpl("index");  //chama o arquivo o <h1>Hello!</h1> que o arquivo index.html, arquivo principal de conteúdo	 	
 	
-	$results = $sql->select("SELECT * FROM tb_users");
 	
-	echo json_encode($results);
-
 });
+			
+		
 
-$app->run();
-
- ?>
+ $app->run();
+		 
+	
+?>
+ 
+ 
+	
