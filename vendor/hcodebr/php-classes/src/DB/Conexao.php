@@ -1,25 +1,24 @@
 <?php
-session_start();
-			//$apiURL = "/components/";
-			//require 'Slim/Slim.php';
-			//\Slim\Slim::registerAutoloader();
+//session_start();
 			require_once("vendor/autoload.php");
 			$app = new \Slim\Slim();
+    
+	        $tns = "(DESCRIPTION =
+					(ADDRESS_LIST =
+					  (ADDRESS = (PROTOCOL = TCP)(HOST = 192.42.103.5)(PORT = 1521))
+					)
+					(CONNECT_DATA =
+					  (SERVICE_NAME = DBHOM00)
+					)
+				  )";
 
-			function getConnection() {
-				$DBHost = "192.42.103.5"; //Database Host URL or IP Address
-				$DBOraclePort = "1521"; //DB Oracle Port
-				$DBName = "DBHOM00"; //if MySQL use Database Name, if Oracle use Oracle System ID (SID)
-				//Connection String
-				//$connectionDB = "mysql:host={$DBHost};dbname={$DBName}";
-				$connectionDB = "oci:dbname=(DESCRIPTION=(ADDRESS=(HOST={$DBHost})(PROTOCOL=tcp)(PORT={$DBOraclePort}))(CONNECT_DATA=(SID={$DBName})))";
-				$DBUser = "prdgemco";
-				$DBPswd = "prdgemco";
-				$dbh = new PDO($connectionDB, $DBUser, $DBPswd);
-				$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-				$dbh->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-				return $dbh;
-				
-			}
+				$db_username = "prdgemco";
+				$db_password = "prdgemco";
+
+				try{
+					$conn = new PDO('oci:dbname='.$tns.';charset=UTF8',$db_username,$db_password);
+				}catch(PDOException $e){
+					echo ($e->getMessage());
+				}
 
 ?>

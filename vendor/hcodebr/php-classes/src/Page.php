@@ -4,59 +4,62 @@ namespace Hcode;
 
 use Rain\Tpl;
 
+class Page {
 
-Class Page {
+	private $tpl;
+	private $options = [];
+	private $defaults = [
+		"header"=>true,      /*o header e o footer é padrão pra todoas as páginas exceto a de login que é igual a False*/
+		"footer"=>true,
+		"data"=>[]
+	];
 
-     private $tpl;
-	 private $options;
-	 private $defaults = [
-	     "data"=> []
-	 ];
 	 
-    public function __construct($opts = array()) 
+	public function __construct($opts = array(), $tpl_dir = "/views/")   
 	{
 		 
 		$this->options = array_merge($this->defaults, $opts);                       //array_merge mescla os arrays 
 		 
-        $config = array(
-			"tpl_dir"       => $_SERVER["DOCUMENT_ROOT"]."/views/",
-		    "cache_dir"     => $_SERVER["DOCUMENT_ROOT"]."/views-cache/",
+  		$config = array(
+			"tpl_dir"       => $_SERVER["DOCUMENT_ROOT"].$tpl_dir,
+			"cache_dir"     => $_SERVER["DOCUMENT_ROOT"]."/views-cache/",
 			"debug"         => false
-		);
+	    );
+
 				   
-    	Tpl::configure( $config );		   
-		
+		Tpl::configure( $config );
+
 		$this->tpl = new Tpl;
-		
+
 		$this->setData($this->options["data"]);
-		
-		$this->tpl->draw("header");
-	
+
+		if ($this->options["header"] === true) $this->tpl->draw("header");
+			
     }
 	
 	private function setData($data = array())
 	{
-		
+
 		foreach ($data as $key => $value) {
 			$this->tpl->assign($key, $value);
-	    }
+		}
+
 	}
 
-    public function setTpl($name, $data = array(), $returnHTML = false) 
+    public function setTpl($name, $data = array(), $returnHTML = false)
 	{
-		
-		$this->setData($data);
-	
-		return $this->tpl->draw($name, $returnHTML);
-		
-	} 
 
-    public function __destruct()
-	{
-		 
-	    $this->tpl->draw("footer");		 
-	 	
-		 
+		$this->setData($data);
+
+		return $this->tpl->draw($name, $returnHTML);
+
+	}
+
+   public function __destruct()
+   {
+
+		if ($this->options["footer"] === true) $this->tpl->draw("footer");
+
 	}
 }
 ?>

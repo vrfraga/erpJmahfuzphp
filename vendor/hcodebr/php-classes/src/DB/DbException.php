@@ -1,0 +1,7 @@
+<?
+class DDDException extends Exception
+{
+     
+}
+
+?>
